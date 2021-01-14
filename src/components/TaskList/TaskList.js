@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { TaskCard } from './TaskCard/TaskCard';
+
 export const TaskList = () => {
 	const [taskList, setTaskList] = useState([
 		{
@@ -35,6 +37,51 @@ export const TaskList = () => {
 		margin-bottom: 2rem;
 	`;
 
+	const generateTaskColumns = () => {
+		const Column = styled.div`
+			padding: 0 1%;
+			width: calc(100% / 3);
+			display: flex;
+			justify-content: flex-start;
+			flex-direction: column;
+			align-items: center;
+		`;
+
+		const Row = styled.div`
+			display: flex;
+		`;
+
+		return (
+			<Row>
+				<Column>
+					{taskList
+						.filter(x => x.status === 'To Do')
+						.map(x => {
+							return <TaskCard whatToDo={x.whatToDo} who={x.who} priority={x.priority} />
+						})
+					}
+				</Column>
+				<Column>
+					{taskList
+						.filter(x => x.status === 'Doing')
+						.map(x => {
+							return <TaskCard whatToDo={x.whatToDo} who={x.who} priority={x.priority} />
+						})
+					}
+				</Column>
+				<Column>
+					{taskList
+						.filter(x => x.status === 'Done')
+						.map(x => {
+							return <TaskCard whatToDo={x.whatToDo} who={x.who} priority={x.priority} />
+						})
+					}
+				</Column>
+			</Row>
+		);
+
+	}
+
 	return (
 		<TaskListLayout>
 			<ColumnHeaderArea>
@@ -43,6 +90,7 @@ export const TaskList = () => {
 				<ColumnHeader>Done</ColumnHeader>
 			</ColumnHeaderArea>
 			<Divider />
+			{generateTaskColumns()}
 		</TaskListLayout>
 	);
 }
