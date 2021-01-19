@@ -3,24 +3,33 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import uniqid from 'uniqid';
 
-export const IsItUrgent = () => {
-	const [urgencyScale, setUrgencyScale] = useState([
-		{
-			urgency: 'low',
-			color: '#71a1ff',
-			selected: true,
-		},
-		{
-			urgency: 'average',
-			color: '#f8bd26',
-			selected: false,
-		},
-		{
-			urgency: 'high',
-			color: '#ff7171',
-			selected: false
+export const IsItUrgent = ({ initialUrgency, onChangePriority }) => {
+
+	const defaultlUrgencyScale = [{
+		urgency: 'low',
+		color: '#71A1FF',
+		selected: false,
+	},
+	{
+		urgency: 'average',
+		color: '#F8BD26',
+		selected: false,
+	},
+	{
+		urgency: 'high',
+		color: '#FF7171',
+		selected: false,
+	}];
+
+	const initialUrgencyScale = defaultlUrgencyScale.map(x => {
+		if (x.urgency === initialUrgency.urgency) {
+			return { ...x, selected: true }
 		}
-	]);
+
+		return x;
+	});
+
+	const [urgencyScale, setUrgencyScale] = useState(initialUrgencyScale);
 
 	const FormItem = styled.div`
         display: flex;
@@ -53,33 +62,30 @@ export const IsItUrgent = () => {
 		});
 
 		setUrgencyScale(urgencyScaleWithNewSelection);
+		onChangePriority(urgencyScaleWithNewSelection.find(x => x.selected === true));
 	}
 
 	const generateUrgencyOptions = () => {
-		return urgencyScale.map(urgency => {
-			if (urgency.selected) {
-				return <div
-					key={uniqid()}
-					style={{
-						backgroundColor: urgency.color,
-						width: 'calc(2.5rem + 5px)',
-						height: 'calc(2.5rem + 5px)',
-						border: '5px solid #5bf326',
-						borderRadius: '3px',
-						cursor: 'pointer',
-					}}
-				/>
+		return urgencyScale.map((x, i) => {
+
+			if (x.selected) {
+				return <div key={i} style={{
+					backgroundColor: x.color,
+					width: 'calc(2.5rem + 5px)',
+					height: 'calc(2.5rem + 5px)',
+					border: '5px solid #5BF326',
+					borderRadius: '3px',
+					cursor: 'pointer'
+				}} />
 			}
 
-			return <div
-				key={uniqid()}
-				style={{
-					backgroundColor: urgency.color,
-					width: '2.5rem',
-					height: '2.5rem',
-					cursor: 'pointer',
-				}} onClick={() => onClickToSetUrgency(urgency.urgency)} />
-		})
+			return <div key={i} style={{
+				backgroundColor: x.color,
+				width: '2.5rem',
+				height: '2.5rem',
+				cursor: 'pointer'
+			}} onClick={() => onClickToSetUrgency(x.urgency)} />
+		});
 	}
 
 	return (

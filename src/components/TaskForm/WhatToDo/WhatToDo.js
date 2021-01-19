@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-export const WhatToDo = () => {
+export const WhatToDo = ({ initialWhatToDo, onChangeWhatToDo }) => {
 	const FormItem = styled.div`
 		display: flex;
 		flex-direction: column;
@@ -14,7 +14,7 @@ export const WhatToDo = () => {
 	`;
 
 	const InputWhatToDo = styled.input`
-		background: #ffffff;
+		background: #fff;
 		box-shadow: 5px 5px 10px #a9c4da;
 		border-radius: 5px;
 		border: 0;
@@ -25,7 +25,7 @@ export const WhatToDo = () => {
 	return (
 		<FormItem>
 			<WhatToDoLabel>What to do?</WhatToDoLabel>
-			<InputWhatToDo />
+			<InputWhatToDo defaultValue={initialWhatToDo} onChange={(e) => onChangeWhatToDo(e.target.value)} type="text" />
 		</FormItem>
 	);
 

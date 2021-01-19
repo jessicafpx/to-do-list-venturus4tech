@@ -1,37 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import uniqid from 'uniqid';
-
 import { Avatar } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { whoList } from '../../../helpers/whoList';
 
-import Avatar1 from '../../../assets/avatar1.png';
-import Avatar2 from '../../../assets/avatar2.png';
-import Avatar3 from '../../../assets/avatar3.png';
-import Avatar4 from '../../../assets/avatar4.png';
-
-export const Who = () => {
-	const [selectedWho, setSelectedWho] = useState(1);
-
-	const completeWhoList = [
-		{
-			idx: 1,
-			avatarSource: Avatar1
-		},
-		{
-			idx: 2,
-			avatarSource: Avatar2
-		},
-		{
-			idx: 3,
-			avatarSource: Avatar3
-		},
-		{
-			idx: 4,
-			avatarSource: Avatar4
-		},
-	]
+export const Who = ({ initialSelectedWho, onChangeSelectedWho }) => {
+	const [selectedwho, setSelectedWho] = useState(initialSelectedWho)
 
 	const FormItem = styled.div`
 		display: flex;
@@ -42,34 +17,48 @@ export const Who = () => {
 
 	const WhoLabel = styled.div`
 		font-size: 30px;
-
 	`;
 
 	const WhoSelectionArea = styled.div`
 		display: flex;
 		height: 5rem;
-		background: #ffffff;
+		background: #fff;
 		box-shadow: 5px 5px 10px #a9c4da;
 		border-radius: 5px;
 	`;
 
-	const SelectedToTheLeftOrRight = styled.div`
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	const ScrollLeftOrRightArrow = styled.div`    
 		width: 10%;
-	`;
-
-	const AvatarArea = styled.div`
-		width: 80%;
-		align-items: center;
 		display: flex;
-		justify-content: space-around;
-	`;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	`
 
+	const ThreeAvatarsArea = styled.div`
+		width: 80%;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+	`
+
+	const generateAvatars = () => {
+		return whoList
+			.map((x, i) => {
+				return <Avatar
+					key={i}
+					style={getAvatarStyle(x.idx)}
+					onClick={() => {
+						setSelectedWho(x.idx)
+						onChangeSelectedWho(x.idx)
+					}}
+					icon={< img src={x.avatarSource} alt={`Avatar ${x.idx}`} />}
+				/>
+			})
+	}
 
 	const getAvatarStyle = (avatarIndex) => {
-		if (avatarIndex === selectedWho) {
+		if (avatarIndex === selectedwho) {
 			return {
 				border: '5px solid #5BF326',
 				boxSizing: 'border-box',
@@ -87,46 +76,35 @@ export const Who = () => {
 		}
 	}
 
-	const generateAvatars = () => {
-		return completeWhoList
-			.map(who => {
-				return <Avatar
-					key={uniqid()}
-					style={getAvatarStyle(who.idx)}
-					onClick={() => { setSelectedWho(who.idx) }}
-					icon={
-						< img src={who.avatarSource} alt={`Avatar ${who.idx}`} />
-					} />
-			});
+	const onClickRight = () => {
+		if (selectedwho === 4) {
+			return setSelectedWho(1)
+		}
+
+		setSelectedWho(selectedwho + 1)
 	}
 
 	const onClickLeft = () => {
-		if (selectedWho === 1) {
-			return setSelectedWho(4);
+		if (selectedwho === 1) {
+			return setSelectedWho(4)
 		}
-		setSelectedWho(selectedWho - 1);
-	}
 
-	const onClickRight = () => {
-		if (selectedWho === 4) {
-			return setSelectedWho(1);
-		}
-		setSelectedWho(selectedWho + 1);
+		setSelectedWho(selectedwho - 1)
 	}
 
 	return (
 		<FormItem>
-			<WhoLabel>Who</WhoLabel>
+			<WhoLabel> Who </WhoLabel>
 			<WhoSelectionArea>
-				<SelectedToTheLeftOrRight onClick={onClickLeft}>
+				<ScrollLeftOrRightArrow onClick={onClickLeft}>
 					<LeftOutlined />
-				</SelectedToTheLeftOrRight>
-				<AvatarArea>
+				</ScrollLeftOrRightArrow>
+				<ThreeAvatarsArea>
 					{generateAvatars()}
-				</AvatarArea>
-				<SelectedToTheLeftOrRight onClick={onClickRight}>
+				</ThreeAvatarsArea>
+				<ScrollLeftOrRightArrow onClick={onClickRight}>
 					<RightOutlined />
-				</SelectedToTheLeftOrRight>
+				</ScrollLeftOrRightArrow>
 			</WhoSelectionArea>
 		</FormItem>
 	);

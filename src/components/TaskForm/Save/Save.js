@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { CheckOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
-export const Save = () => {
+export const Save = ({ loading, saveTask }) => {
 	const FormItem = styled.div`
 		display: flex;
 		flex-direction: column;
@@ -29,8 +30,8 @@ export const Save = () => {
 
 	return <FormItem>
 		<SaveLabel>Save?</SaveLabel>
-		<SaveButton>
-			<CheckOutlined />
-		</SaveButton>
+		<Spin spinning={loading}>
+			<SaveButton onClick={saveTask}> <CheckOutlined /> </SaveButton>
+		</Spin>
 	</FormItem>
 }
