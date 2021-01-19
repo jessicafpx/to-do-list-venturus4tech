@@ -3,7 +3,7 @@
 </h1>
 
 # Venturus4tech: To-do list
-Este é uma aplicação desenvolvida durante o Venturus4tech 2021. Trata-se de um to-do list para gerenciamento de tarefas utilizando o conceito de Kanban.
+Aplicação desenvolvida durante o Venturus4tech 2021. Trata-se de um to-do list para gerenciamento de tarefas utilizando o conceito de Kanban.
 
 ## ⚙️ Tecnologias
 - React
