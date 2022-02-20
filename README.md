@@ -24,4 +24,4 @@ Aplicação desenvolvida durante o Venturus4tech 2021. Trata-se de um to-do list
 
 ---
 
-##### <p align="center"> <strong> < desenvolvido por <a href="github.com/jessicafpx"> @jessicafpx</a> /></strong> 👋
+##### <p align="center"> <strong> <desenvolvido por <a href="github.com/jessicafpx"> @jessicafpx</a> /></strong> 👋
